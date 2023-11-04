@@ -1,0 +1,8 @@
+<h2>Rooms</h2>
+
+<div *ngFor="let room of rooms$ | async">
+  {{room.name}} {{room.owner}}
+</div>
+
+
+<app-homepage></app-homepage>
