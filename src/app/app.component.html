@@ -1,8 +1,6 @@
-<h2>Rooms</h2>
+<mat-toolbar>
+  <span>{{ title }}</span>
+</mat-toolbar>
 
-<div *ngFor="let room of rooms$ | async">
-  {{room.name}} {{room.owner}}
-</div>
+<router-outlet></router-outlet>
 
-
-<app-homepage></app-homepage>

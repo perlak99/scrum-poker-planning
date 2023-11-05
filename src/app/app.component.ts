@@ -1,6 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { Room, RoomsService } from './services/rooms/rooms.service';
-import { Observable } from 'rxjs';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +7,11 @@ import { Observable } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'scrum-poker-planning';
+  authService: AuthService = inject(AuthService);
 
-  roomsService = inject(RoomsService);
-
-  rooms$: Observable<Room[]>;
-
-  constructor() {
-    this.rooms$ = this.roomsService.getRooms();
+  ngOnInit() {
+    this.authService.signIn();
   }
+  
+  title = 'Scrum poker planning';
 }
