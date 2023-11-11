@@ -1,1 +1,7 @@
-<p>room works! {{name}}</p>
+<div class="container">
+    <h1>Room: {{ name }}</h1>
+    <h2>You have selected: {{ selectedValue }}</h2>
+    <div class="vote-buttons">
+        <button mat-raised-button *ngFor="let number of fibonacci" (click)="chooseNumber(number)">{{ number }}</button>
+    </div>
+</div>

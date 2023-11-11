@@ -1,0 +1,11 @@
+.container {
+    padding: 10px;
+    h1, h2 {
+        text-align: center;
+    }
+    .vote-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+}

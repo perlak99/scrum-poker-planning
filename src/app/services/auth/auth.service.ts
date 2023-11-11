@@ -14,7 +14,6 @@ export class AuthService {
   signIn() {
     signInAnonymously(this.auth).then((result) => {
       this._userUid = result.user.uid;
-      console.log(this._userUid);
     });
   }
 
