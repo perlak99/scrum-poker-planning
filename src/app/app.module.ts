@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { RoomComponent } from './room/room.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { RoomComponent } from './room/room.component';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

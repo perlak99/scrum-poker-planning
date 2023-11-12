@@ -1,11 +1,28 @@
-.container {
-    padding: 10px;
-    h1, h2 {
-        text-align: center;
+@import "../../variables.scss";
+
+h1 {
+    text-align: center;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin: 5px;
+    gap: 10px;
+}
+
+.card {
+    padding: 5px;
+    border-radius: 5px;
+    .current-user-card {
+        color: $primary;
     }
-    .vote-buttons {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-    }
+}
+
+.vote-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 }

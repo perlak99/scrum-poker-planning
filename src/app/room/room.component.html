@@ -1,6 +1,13 @@
 <div class="container">
     <h1>Room: {{ name }}</h1>
-    <h2>You have selected: {{ selectedValue }}</h2>
+
+    <div class="cards">
+        <mat-card class="card" *ngFor="let user of users$ | async">
+            <mat-card-title>{{ user.name ?? "Anonymous"}}</mat-card-title>
+            <mat-card-subtitle>{{ user.selectedValue }}</mat-card-subtitle>
+        </mat-card>
+    </div>
+
     <div class="vote-buttons">
         <button mat-raised-button *ngFor="let number of fibonacci" (click)="chooseNumber(number)">{{ number }}</button>
     </div>

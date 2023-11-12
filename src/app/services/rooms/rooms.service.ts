@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
-import { DocumentSnapshot, Firestore, addDoc, collection, doc, getDoc, onSnapshot, query, setDoc, updateDoc } from '@angular/fire/firestore';
+import { Injectable, NgZone, inject } from '@angular/core';
+import { DocumentSnapshot, Firestore, addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 
@@ -7,9 +7,11 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class RoomsService {
-  fs: Firestore = inject(Firestore)
-  authService: AuthService = inject(AuthService)
-  collection: any = collection(this.fs, 'rooms');
+  private fs: Firestore = inject(Firestore)
+  private authService: AuthService = inject(AuthService)
+  private ngZone: NgZone = inject(NgZone);
+
+  private collection: any = collection(this.fs, 'rooms');
 
   constructor() { }
 
@@ -41,14 +43,32 @@ export class RoomsService {
 
   getUserCollectionOnSnapshot(id: string): Observable<any> {
     const userCollectionQuery = query(collection(this.fs, 'rooms', id, 'users'));
+
     return new Observable(observer => {
+      getDocs(userCollectionQuery)
+        .then(querySnapshot => {
+          observer.next(querySnapshot);
+
       const unsubscribe = onSnapshot(userCollectionQuery, {
-        next: querySnapshot => observer.next(querySnapshot),
+        next: querySnapshot => {
+          this.ngZone.run(() => {
+            observer.next(querySnapshot)
+          });
+        },
         error: error => observer.error(error)
       });
+
       return { unsubscribe };
+      })
+      .catch(error => observer.error(error));
     });
   }
+
+  async checkIfUserNameExists(roomId: string, userId: string) : Promise<boolean> {
+    const userDoc = await getDoc(doc(this.fs, 'rooms', roomId, 'users', userId));
+    return userDoc.exists() && userDoc.get('name');
+  }
+
 }
 
 export interface Room {
@@ -58,6 +78,6 @@ export interface Room {
 }
 
 export interface RoomUser {
-  id: string,
-  selectedValue: number
+  name: string,
+  selectedValue: string
 }
