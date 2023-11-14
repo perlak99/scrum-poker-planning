@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>Enter your name</h2>
+<mat-dialog-content>
+    <mat-form-field>
+        <input matInput placeholder="Your Name" [(ngModel)]="userName" required>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button color="primary" [disabled]="!userName" (click)="onSaveClick()">Save</button>
+    <button mat-raised-button color="warn" (click)="onCancelClick()">Cancel</button>
+</mat-dialog-actions>

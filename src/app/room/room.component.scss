@@ -15,9 +15,14 @@ h1 {
 .card {
     padding: 5px;
     border-radius: 5px;
-    .current-user-card {
-        color: $primary;
-    }
+}
+
+.current-user-card {
+    color: $primary;
+}
+
+.average-card {
+    background-color: $primary-light;
 }
 
 .vote-buttons {

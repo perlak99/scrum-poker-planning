@@ -2,6 +2,13 @@
     <h1>Room: {{ name }}</h1>
 
     <div class="cards">
+        <mat-card class="card average-card">
+            <mat-card-title>Average</mat-card-title>
+            <mat-card-subtitle>{{ averageValue }}</mat-card-subtitle>
+        </mat-card>
+    </div>
+
+    <div class="cards">
         <mat-card class="card" *ngFor="let user of users$ | async">
             <mat-card-title>{{ user.name ?? "Anonymous"}}</mat-card-title>
             <mat-card-subtitle>{{ user.selectedValue }}</mat-card-subtitle>

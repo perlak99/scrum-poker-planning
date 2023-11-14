@@ -1,5 +1,5 @@
 import { Injectable, NgZone, inject } from '@angular/core';
-import { DocumentSnapshot, Firestore, addDoc, collection, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from '@angular/fire/firestore';
+import { DocumentSnapshot, Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, onSnapshot, query, setDoc, updateDoc } from '@angular/fire/firestore';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 
@@ -69,6 +69,15 @@ export class RoomsService {
     return userDoc.exists() && userDoc.get('name');
   }
 
+  addUserToRoom(roomId: string, user: RoomUser): Promise<any> {
+    const userDocRef = doc(this.fs, 'rooms', roomId, 'users', this.authService.userUid);
+    return setDoc(userDocRef, user);
+  }
+
+  removeUserFromRoom(roomId: string, userId: string): Promise<any> {
+    const userDocRef = doc(this.fs, 'rooms', roomId, 'users', userId);
+    return deleteDoc(userDocRef);
+  }
 }
 
 export interface Room {
