@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class RoomsService {
+export class RoomService {
   private fs: Firestore = inject(Firestore)
   private authService: AuthService = inject(AuthService)
   private ngZone: NgZone = inject(NgZone);
@@ -19,7 +19,7 @@ export class RoomsService {
     let room: Room = {
       name: name,
       owner: this.authService.userUid,
-      users: []
+      reveal: false
     }
 
     return addDoc(this.collection, room);
@@ -64,6 +64,29 @@ export class RoomsService {
     });
   }
 
+  getRoomDocumentOnSnapshot(id: string): Observable<any> {
+    const roomDocRef = doc(this.fs, 'rooms', id);
+  
+    return new Observable(observer => {
+      getDoc(roomDocRef)
+        .then(docSnapshot => {
+          observer.next(docSnapshot);
+  
+          const unsubscribe = onSnapshot(roomDocRef, {
+            next: docSnapshot => {
+              this.ngZone.run(() => {
+                observer.next(docSnapshot)
+              });
+            },
+            error: error => observer.error(error)
+          });
+  
+          return { unsubscribe };
+        })
+        .catch(error => observer.error(error));
+    });
+  }
+
   async checkIfUserNameExists(roomId: string, userId: string) : Promise<boolean> {
     const userDoc = await getDoc(doc(this.fs, 'rooms', roomId, 'users', userId));
     return userDoc.exists() && userDoc.get('name');
@@ -78,12 +101,37 @@ export class RoomsService {
     const userDocRef = doc(this.fs, 'rooms', roomId, 'users', userId);
     return deleteDoc(userDocRef);
   }
+
+  async revealRoom(roomId: string, reveal: boolean) : Promise<any> {
+    const roomDocRef = doc(this.fs, 'rooms', roomId);
+    try {
+      await setDoc(roomDocRef, { reveal }, { merge: true })
+    } catch (error) {
+      console.error('Error updating room reveal value:', error);
+    }
+  }
+
+  async clearAllSelectedValues(roomId: string): Promise<void> {
+    const roomDocRef = doc(this.fs, 'rooms', roomId);
+  
+    try {
+      const userCollectionRef = collection(roomDocRef, 'users');
+      const userQuerySnapshot = await getDocs(userCollectionRef);
+  
+      for (const userDoc of userQuerySnapshot.docs) {
+        const userDocRef = doc(userCollectionRef, userDoc.id);
+        await setDoc(userDocRef, { selectedValue: null }, { merge: true });
+      }
+    } catch (error) {
+      console.error('Error clearing selected values:', error);
+    }
+  }
 }
 
 export interface Room {
   name: string,
   owner: string,
-  users: RoomUser[]
+  reveal: boolean
 }
 
 export interface RoomUser {

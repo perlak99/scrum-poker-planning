@@ -1,17 +1,23 @@
 <div class="container">
-    <h1>Room: {{ name }}</h1>
-
-    <div class="cards">
-        <mat-card class="card average-card">
-            <mat-card-title>Average</mat-card-title>
-            <mat-card-subtitle>{{ averageValue }}</mat-card-subtitle>
-        </mat-card>
+    <div class="top">
+        <h1>Room: {{ name }}</h1>
+    
+        <div class="score">
+            <mat-card class="card average-card">
+                <mat-card-title>Average</mat-card-title>
+                <mat-card-subtitle *ngIf="averageValue && averageValue != 0">{{ reveal ? averageValue : '?' }}</mat-card-subtitle>
+            </mat-card>
+            <div class="action-buttons">
+                <button mat-raised-button (click)="revealScore()">Reveal</button>
+                <button mat-raised-button (click)="clearScore()">Clear</button>
+            </div>
+        </div>
     </div>
 
     <div class="cards">
-        <mat-card class="card" *ngFor="let user of users$ | async">
+        <mat-card class="card" *ngFor="let user of users$ | async" [ngClass]="{'current-user-card' : userId === user.id}">
             <mat-card-title>{{ user.name ?? "Anonymous"}}</mat-card-title>
-            <mat-card-subtitle>{{ user.selectedValue }}</mat-card-subtitle>
+            <mat-card-subtitle *ngIf="user.selectedValue">{{ reveal || userId === user.id ? user.selectedValue : '?' }}</mat-card-subtitle>
         </mat-card>
     </div>
 

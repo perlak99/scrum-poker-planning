@@ -1,24 +1,31 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, signInAnonymously, user } from '@angular/fire/auth';
+import { Auth, onAuthStateChanged, signInAnonymously, user } from '@angular/fire/auth';
+import { BehaviorSubject} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth: Auth = inject(Auth);
-  private _userUid: string;
+  private authStateSubject = new BehaviorSubject<string>(null);
 
   constructor() {
-  }
-
-  signIn() {
-    signInAnonymously(this.auth).then((result) => {
-      this._userUid = result.user.uid;
+    onAuthStateChanged(this.auth, (user) => {
+      const userUid = user ? user.uid : null;
+      this.authStateSubject.next(userUid);
     });
   }
 
-  get userUid() {
-    return this._userUid;
+  signIn() {
+    signInAnonymously(this.auth);
+  }
+
+  get userUid$() {
+    return this.authStateSubject.asObservable();
+  }
+
+  get userUid(): string {
+    return this.authStateSubject.getValue();
   }
 }
 

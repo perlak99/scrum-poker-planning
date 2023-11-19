@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RoomsService } from '../services/rooms/rooms.service';
+import { RoomService } from '../services/room/room.service';
 import { DocumentReference } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class HomepageComponent {
   roomName: string;
 
-  roomService: RoomsService = inject(RoomsService);
+  roomService: RoomService = inject(RoomService);
 
   router: Router = inject(Router);
   
