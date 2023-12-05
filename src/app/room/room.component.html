@@ -1,15 +1,21 @@
 <div class="container">
     <div class="top">
         <h1>Room: {{ name }}</h1>
-    
-        <div class="score">
-            <mat-card class="card average-card">
-                <mat-card-title>Average</mat-card-title>
-                <mat-card-subtitle *ngIf="averageValue && averageValue != 0">{{ reveal ? averageValue : '?' }}</mat-card-subtitle>
-            </mat-card>
-            <div class="action-buttons">
-                <button mat-raised-button (click)="revealScore()">Reveal</button>
-                <button mat-raised-button (click)="clearScore()">Clear</button>
+        
+        <div class="top-main">
+            <div></div>
+            <div class="score">
+                <mat-card class="card average-card">
+                    <mat-card-title>Average</mat-card-title>
+                    <mat-card-subtitle *ngIf="averageValue && averageValue != 0">{{ reveal ? averageValue : '?' }}</mat-card-subtitle>
+                </mat-card>
+                <div class="action-buttons">
+                    <button mat-raised-button (click)="revealScore()">Reveal</button>
+                    <button mat-raised-button (click)="clearScore()">Clear</button>
+                </div>
+            </div>
+            <div>
+                <app-chat [roomId]="roomId" [userName]="username"></app-chat>
             </div>
         </div>
     </div>

@@ -23,6 +23,17 @@ h1 {
     gap: 10px;
 }
 
+.top-main {
+    display: flex;
+    gap: 10px;
+    justify-content: space-around;
+    align-items: center;
+
+    div {
+        flex: 1;
+    }
+}
+
 .score {
     display: flex;
     flex-direction: column;

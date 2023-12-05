@@ -1,0 +1,25 @@
+.chat-section {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+  
+.chat-messages {
+    overflow-y: auto;
+    flex-grow: 1;
+    padding: 16px;
+    border: 1px solid #ddd; /* Border style */
+    background-color: #f9f9f9; /* Background color */
+    height: 250px;
+}
+
+.chat-input {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+
+    input {
+        flex: 1
+    }
+}

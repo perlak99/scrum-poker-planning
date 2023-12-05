@@ -1,0 +1,11 @@
+<div class="chat-section">
+    <div class="chat-messages">
+        <div *ngFor="let message of chatMessages$ | async" class="message">
+        <p><strong>{{ message.user }}:</strong> {{ message.message }}</p>
+        </div>
+    </div>
+    <div class="chat-input">
+        <input matInput placeholder="Type your message..." [(ngModel)]="newMessage">
+        <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
+    </div>
+</div>

@@ -13,13 +13,15 @@ import { getAuth, provideAuth } from '@angular/fire/auth';
 import { RoomComponent } from './room/room.component';
 import { CommonModule } from '@angular/common';
 import { NameDialogComponent } from './room/name-dialog/name-dialog.component';
+import { ChatComponent } from './chat/chat.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomepageComponent,
     RoomComponent,
-    NameDialogComponent
+    NameDialogComponent,
+    ChatComponent
   ],
   imports: [
     provideFirebaseApp(() => initializeApp(firebaseConfig)),

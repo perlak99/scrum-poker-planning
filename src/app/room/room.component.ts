@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { catchError, map, mergeMap, tap } from 'rxjs';
 import { NameDialogComponent } from './name-dialog/name-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ChatService } from '../services/chat/chat.service';
 
 @Component({
   selector: 'app-room',
@@ -18,8 +19,7 @@ export class RoomComponent {
   private router: Router = inject(Router);
   private dialog: MatDialog = inject(MatDialog);
 
-  private roomId: string;
-
+  roomId: string;
   userId: string;
   averageValue: number = 0;
   name: string;
