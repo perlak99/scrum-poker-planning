@@ -10,7 +10,7 @@
                     <mat-card-subtitle *ngIf="averageValue && averageValue != 0">{{ reveal ? averageValue : '?' }}</mat-card-subtitle>
                 </mat-card>
                 <div class="action-buttons">
-                    <button mat-raised-button (click)="revealScore()">Reveal</button>
+                    <button mat-raised-button (click)="revealScore()">{{ reveal ? "Hide" : "Reveal" }}</button>
                     <button mat-raised-button (click)="clearScore()">Clear</button>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges, inject } from '@angular/core';
+import { Component, ElementRef, Input, Renderer2, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { Observable, catchError, debounceTime, map, tap } from 'rxjs';
 import { ChatService, Message } from '../services/chat/chat.service';
 
@@ -14,6 +14,10 @@ export class ChatComponent {
   @Input()
   userName: string;
 
+  @ViewChild('chatMessages') chatMessages: ElementRef;
+
+  scrolledToBottom: boolean;
+
   private chatService: ChatService = inject(ChatService);
 
   chatMessages$: Observable<any[]>;
@@ -23,6 +27,10 @@ export class ChatComponent {
     this.initChatMessagesObservable();
   }
 
+  ngAfterViewInit() {
+    this.scrollToBottom();
+  }
+  
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['roomId'] && !changes['roomId'].firstChange) {
       this.initChatMessagesObservable();
@@ -39,6 +47,22 @@ export class ChatComponent {
         throw error;
       })
     );
+
+    this.chatMessages$
+    .subscribe(() => {
+      if (this.scrolledToBottom) {
+        this.scrollToBottom();
+      }
+    });
+  }
+
+  scrollToBottom(): void {
+    this.chatMessages.nativeElement.scrollTop = this.chatMessages.nativeElement.scrollHeight;
+    this.scrolledToBottom = true;
+  }
+
+  onScroll() : void {
+    this.scrolledToBottom = Math.abs(this.chatMessages.nativeElement.scrollHeight - this.chatMessages.nativeElement.clientHeight - this.chatMessages.nativeElement.scrollTop) <= 1;
   }
 
   sendMessage() {
@@ -48,5 +72,7 @@ export class ChatComponent {
     }
 
     this.chatService.addMessageToRoom(this.roomId, message);
+
+    this.newMessage = "";
   }
 }

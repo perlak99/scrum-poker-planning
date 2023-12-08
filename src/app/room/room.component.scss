@@ -16,6 +16,7 @@ h1 {
     text-align: center;
     margin: 5px;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 .action-buttons {
@@ -62,4 +63,17 @@ h1 {
     display: flex;
     justify-content: center;
     gap: 10px;
+    flex-wrap: wrap;
+}
+
+
+@media screen and (max-width: 768px) {
+    .top-main {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .score {
+        margin-top: 10px; /* Adjust margin as needed */
+    }
 }
